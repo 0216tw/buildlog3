@@ -1,0 +1,22 @@
+# Environment files (keep the secret-free template)
+.env
+.env.*
+!.env.example
+
+# Dependencies and virtual environments
+.venv/
+node_modules/
+
+# Build output and Python caches
+dist/
+__pycache__/
+.pytest_cache/
+.coverage
+
+# Local databases
+*.sqlite
+*.sqlite3
+*.db
+
+# Log files
+*.log
