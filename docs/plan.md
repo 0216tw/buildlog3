@@ -10,8 +10,9 @@
 | 서버 | Python + FastAPI | 회원, 권한, 기록과 커뮤니티 기능 처리 |
 | 실제 서비스 DB | Supabase PostgreSQL | 실제 사용자와 기록 저장 |
 | 자동 테스트 DB | SQLite3 | 실제 데이터와 분리된 빠른 테스트 |
-| DB 연결 | SQLAlchemy | 두 DB를 같은 모델로 사용 |
-| DB 변경 관리 | Alembic | 데이터 구조 변경 이력과 Supabase 반영 |
+| 현재 DB 연결 | Python 내장 `sqlite3` | 수업 전 로컬 개발과 테스트 |
+| 이후 DB 연결 | SQLAlchemy | Supabase PostgreSQL 전환 시 검토 |
+| 이후 DB 변경 관리 | Alembic | Supabase 전환 시 적용 |
 
 Supabase는 첫 MVP에서 데이터베이스 용도로 사용합니다. React는 Supabase에 직접 접근하지 않고 FastAPI에만 요청합니다. Supabase 연결 비밀값은 FastAPI 환경 변수에만 둡니다.
 
@@ -156,27 +157,30 @@ SQLite3 테스트는 기본적으로 테스트마다 임시 DB를 사용합니�
 
 ### Phase 2. DB 연결·사용자 모델·첫 마이그레이션
 
+**진행 상태:** 완료 — Supabase 대신 로컬 SQLite3로 대체 (2026-10-26)
+
 #### 작업
 
-1. SQLAlchemy와 Alembic을 설정합니다.
-2. 실행 환경은 `DATABASE_URL`, 테스트는 `TEST_DATABASE_URL`을 사용합니다.
-3. 테스트 기본 DB를 임시 SQLite3로 설정합니다.
-4. 이메일, 닉네임, 안전하게 처리된 비밀번호, 운영자 여부를 가진 사용자 모델을 만듭니다.
-5. 이메일과 닉네임 중복 방지 제약을 DB에도 적용합니다.
-6. 첫 마이그레이션을 만들고 SQLite3 테스트를 실행합니다.
-7. Supabase 연결 주소를 로컬 `.env`에 설정합니다.
-8. 같은 마이그레이션을 Supabase 개발 DB에 적용합니다.
-9. 두 DB에서 중복 제약과 비밀번호 저장 규칙이 같은지 확인합니다.
+현재는 Supabase 수업 전이므로 Python 내장 `sqlite3`로 사용자 저장 기반을 먼저 만들었습니다. Supabase 연결과 SQLAlchemy·Alembic 적용은 이후 DB 전환 단계로 미룹니다.
+
+1. Python 내장 `sqlite3` 연결과 DB 파일 경로를 설정합니다.
+2. SQLite3에 사용자 테이블을 만듭니다.
+3. 이메일, 닉네임, 안전하게 처리된 비밀번호, 운영자 여부를 저장합니다.
+4. 이메일과 닉네임 중복 방지 제약을 SQLite3에 적용합니다.
+5. SQLite3 사용자 모델 테스트를 실행합니다.
+6. Supabase 연결 주소나 실제 Supabase DB는 아직 사용하지 않습니다.
 
 #### 완료 조건
 
 - SQLite3 사용자 모델 테스트가 통과합니다.
-- 첫 마이그레이션이 Supabase에 적용됩니다.
+- 로컬 SQLite3 데이터 파일이 생성되고 Git에서 제외됩니다.
 - Supabase 비밀값이 React 코드와 Git 대상에 없습니다.
 
 ---
 
 ### Phase 3. 회원가입·로그인·닉네임 변경
+
+**진행 상태:** 완료 (2026-10-26)
 
 #### 작업
 

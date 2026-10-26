@@ -45,9 +45,11 @@ VITE_API_URL=http://localhost:8000
 
 `DATABASE_URL`과 `AUTH_SECRET_KEY`의 실제 값은 공개 문서나 React 코드에 넣지 않습니다.
 
-## 4. Supabase 준비 시점
+## 4. 현재 로컬 DB와 Supabase 준비 시점
 
-Phase 0과 Phase 1에는 Supabase 프로젝트가 필요하지 않습니다. Phase 2를 시작하기 전에 다음 항목을 준비합니다.
+현재 Phase 2와 Phase 3은 Supabase 대신 로컬 SQLite3로 진행했습니다. 프로젝트를 실행하면 `database/buildlog.sqlite3`가 만들어지며, 이 파일은 Git에서 제외됩니다.
+
+Supabase 프로젝트는 아직 필요하지 않습니다. 이후 수업을 마치고 DB 전환을 시작할 때 다음 항목을 준비합니다.
 
 1. Supabase에서 BuildLog용 프로젝트를 만듭니다.
 2. 데이터베이스 비밀번호를 안전한 곳에 보관합니다.
@@ -117,13 +119,17 @@ npm.cmd run build
 
 React 화면에서 FastAPI 연결 성공 안내를 보려면 두 개발 서버를 서로 다른 터미널에서 함께 실행합니다.
 
-## 7. 아직 진행하지 않은 설정
+## 7. 현재 진행 상태
 
-다음 작업은 Phase 2 이후에 진행합니다.
+완료한 작업:
 
-- SQLAlchemy와 Alembic 설치
-- SQLite3 자동 테스트 DB 연결
-- Supabase 프로젝트와 `DATABASE_URL` 연결
-- 사용자 모델과 첫 마이그레이션
+- SQLite3 사용자 테이블과 연결
+- 회원가입·로그인·로그인 상태 확인
+- 닉네임 변경
+- SQLite3 자동 테스트
 
-Phase 1에서는 Supabase 데이터베이스를 만들거나 연결하지 않았습니다.
+아직 진행하지 않은 작업:
+
+- SQLAlchemy와 Alembic 전환
+- Supabase 프로젝트와 실제 DB 연결
+- Supabase PostgreSQL용 마이그레이션

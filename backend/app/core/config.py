@@ -7,6 +7,8 @@ class Settings(BaseSettings):
     app_name: str = "BuildLog API"
     environment: str = "development"
     frontend_url: str = "http://localhost:5173"
+    database_path: str = "database/buildlog.sqlite3"
+    auth_secret_key: str | None = None
 
     model_config = SettingsConfigDict(
         env_file=(".env", "../.env"),
